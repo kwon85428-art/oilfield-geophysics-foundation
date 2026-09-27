@@ -1,0 +1,50 @@
+{
+  "01 沉积学与层序地层学": [
+    "sediment", "deposition", "sequence stratigraph", "sandstone",
+    "conglomerate", "facies", "fan-delta", "shoreface", "lacustrine",
+    "fluvial", "Cretaceous", "Songliao", "Nenjiang", "Yaojia",
+    "Qingshankou", "Fuyu", "Putaohua", "高台子", "萨葡", "扶余",
+    "青山口", "嫩江", "姚家"
+  ],
+  "02 石油地球化学与烃源岩": [
+    "source rock", "kerogen", "biomarker", "organic geochem",
+    "pyrolys", "Rock-Eval", "oil shale", "hydrocarbon generation",
+    "maturity", "oil-source correlat", "solid bitumen", "organo-clay",
+    "生烃", "烃源岩", "油页岩", "干酪根", "生物标志"
+  ],
+  "03 含油气系统与油气成藏": [
+    "petroleum system", "accumulation", "migration", "trap",
+    "seal", "reservoir forming", "play fairway", "preservation",
+    "filling history", "成藏", "运移", "保存条件", "盖层"
+  ],
+  "04 地球物理 / 测井 / 钻井": [
+    "seismic", "well log", "logging", "acoustic", "impedance",
+    "inversion", "attribute", "reservoir geophysic", "WBH",
+    "broadband", "AVO", "prestack", "denois", "resolution",
+    "3-D", "4D", "地震", "测井", "反演", "属性"
+  ],
+  "05 油藏工程与开发地质（含 EOR）": [
+    "enhanced oil recovery", "EOR", "polymer flood", "alkali-surfactant",
+    "ASP", "surfactant", "water flood", "reservoir engineer",
+    "production", "injectivity", "relative permeab", "remaining oil",
+    "residual oil", "sweep efficiency", "profile control", "microbial",
+    "MEOR", "foam", "emulsion", "rheolog", "crosslink", "displacement",
+    "采收率", "聚合物驱", "三元复合驱", "剩余油", "调剖", "驱油"
+  ],
+  "06 非常规 / 盆地分析 / 资源评价": [
+    "shale oil", "shale gas", "tight", "unconventional", "Gulong",
+    "nano pore", "pore fracture", "resource assessment", "reserve",
+    "basin analy", "geomechan", "stress field", "古龙", "页岩油",
+    "致密", "资源评价"
+  ],
+  "07 AI + 地球物理交叉": [
+    "neural network", "deep learning", "machine learning", "CNN",
+    "weakly supervised", "intelligen", "data-driven", "人工智能",
+    "深度学习", "神经网络"
+  ],
+  "08 微生物提高采收率 / 生物技术": [
+    "microbial", "methanogen", "genomic", "transcriptom", "meta-omics",
+    "Archaeoglobi", "biodegrad", "bacterial", "microbiolog", "微生物",
+    "基因组"
+  ]
+}

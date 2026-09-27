@@ -1,0 +1,45 @@
+{
+  "institution": {
+    "name": "大庆油田勘探开发研究院",
+    "short": "daqing_yjy",
+    "openalex_parent_id": "I4387155657",
+    "parent_name": "Daqing Oilfield of CNPC"
+  },
+  "identify": {
+    "city_tokens": ["Daqing", "大庆"],
+    "institute_patterns_en": [
+      "exploration\\s*(?:and|&)\\s*development\\s*research\\s*institute",
+      "research\\s*institute\\s*of\\s*exploration\\s*(?:and|&)\\s*development",
+      "E\\s*&\\s*D\\s*Research\\s*Institute"
+    ],
+    "institute_patterns_cn": [
+      "大庆(?:油田)?(?:勘探开发研究院|研究院)|勘探开发研究院"
+    ],
+    "rival_exclude_tokens": [
+      "Beijing 100083", "Langfang", "Lanzhou", "Northwest", "Xinjiang"
+    ],
+    "cross_group_tokens": [
+      "Sinopec", "Petrochemical", "CNOOC", "Yanchang"
+    ],
+    "_cross_group_note": "2026-09-27 实测发现：OpenAlex 会把两个单位的署名拼进同一条 raw_affiliation_strings，例 'CNOOC China Limited, Tianjin Branch | Exploration and Development Research Institute, PetroChina Daqing Oilfield Company Limited, Daqing'。此时 rival_exclude_tokens 不命中（CNOOC 不在 rival 里）、city 共现成立（串里确有 Daqing），三重约束的两道防线同时失效，双署名被计入本院产出。cross_group_tokens 是第四道防线：同串出现竞争对手集团名一律不计本院。注意 PetroChina 不算竞争对手——它是大庆的母体公司，本身就是院署名的一部分。",
+    "dual_aff_note": "2026-09-27 实测（二刷复算，口径已校）：2109 篇上级公司 works 中，cross_group_tokens 命中的院名署名 7 条 7 人（覆盖面），其中真正被剔除的仅 3 条 3 人，且全落在同一篇论文上（DOI 10.1039/d5ra00059a，32 位作者，CNOOC 天津分公司与大庆院并列署名）；另 4 条无城市共现、三重约束本就不通过，属中石化江汉/河南/胜利油田研究院同名机构，与 cross 防线无关。影响面：院署名 works 876 不变、署名作者 1245→1244、核心匹配 74（消歧合并 3 个分身 ID 后 71）不变。名单内受影响仅 1 人：Yunchao Wang yjy 4→3，被引 30 仍达标，留在名单内。",
+    "_json_note": "本文件 note 类字段必须写成单行字符串——JSON 不允许字符串值里出现裸换行，跨行写会直接解析失败（2026-09-27 踩过）。"
+  },
+  "threshold": { "yjy_min": 2, "cited_min": 30 },
+  "name_cn_file": "daqing_name_cn.json",
+  "domain_rules_file": "domain_rules.json",
+  "_baseline": {
+    "note": "2026-09-26 实测基线，用于判断改动是否破坏口径",
+    "parent_works": 2109,
+    "institute_works": 876,
+    "authors_total": 1245,
+    "core_threshold_1": 1245,
+    "core_threshold_2": 71,
+    "core_threshold_5": 40,
+    "verified_cn": 34,
+    "unverified_cn": 37,
+    "merged_groups": 3,
+    "pollution_before": 200,
+    "pollution_after": 15
+  }
+}
