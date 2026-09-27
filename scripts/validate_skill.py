@@ -23,6 +23,8 @@ VALID_SIBLINGS = {
     "oilfield-geophysics-assistant", "oilfield-well-logging-advisor",
     "well-logging-expert-v1",
 }
+# 已融合/归档的前身 skill：README 融合来源章节提及其 GitHub 链接是合法的（历史溯源，非转交话术）
+MERGED_ANCESTORS = {"oilfield-institute-hub"}
 
 # 关键条款落地清单（SKILL.md 必须 assert 出现）
 KEY_CLAUSES = [
@@ -83,7 +85,7 @@ for p in walk_files():
     if p.suffix == ".md":
         for m2 in re.finditer(r"([A-Za-z][\w\-]*-(?:skill|distill|explorer|advisor|assistant|reserves|dynamics|hub|foundation|roster|cnki-spe))", txt):
             name = m2.group(1)
-            if name not in VALID_SIBLINGS and name != ROOT.name:
+            if name not in VALID_SIBLINGS and name not in MERGED_ANCESTORS and name != ROOT.name:
                 errors.append(f"未安装的兄弟 skill 名: {name} ({rel})")
         if re.search(r"[C]:\\\\Users|/Users/[a-z]", txt):
             errors.append(f"绝对路径: {rel}")
