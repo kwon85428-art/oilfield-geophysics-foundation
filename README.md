@@ -58,10 +58,10 @@ L1 的产出（院名单）是 L2 的输入；L2 的产出（档案+轨迹）是
 │   ├── institute-name-verification.md   # 音译禁令 + 核实阶梯
 │   ├── openalex-pitfalls.md             # OpenAlex 技术坑
 │   ├── waf-playbook.md                  # 瑞数 WAF 实测
-│   ├── workflow-single-scholar.md       # L2 单人六步 + L0-L6
+│   ├── workflow-single-scholar.md       # L2 单人八步 + L0-L6 + 引文链回溯 + 时代结构
 │   ├── workflow-group.md                # L2 课题组七步
 │   ├── ai-teardown-criteria.md          # L3 四问 + 断供分层
-│   └── tool-discipline.md               # 四类坑纪律库
+│   └── tool-discipline.md               # 五类坑纪律库
 ├── institutes/                  # 院配置 schema + 大庆参考实现
 ├── scripts/                     # 5 个实测脚本
 └── assets/archived-scholars.md  # 已建档索引

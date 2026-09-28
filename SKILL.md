@@ -31,7 +31,7 @@ description_en: |
 author: 老桂 + 阿枢
 visibility: private
 category: industry
-version: 2.0.0
+version: 2.1.0
 tags:
   - 物探
   - 油田研究院
@@ -106,7 +106,7 @@ tags:
 
 ## L2 · 人物/课题组蒸馏
 
-**单人六步**（`references/workflow-single-scholar.md`）：锚定身份（**含音译禁令**）→ 多源爬取 → 假阳性过滤 → 轨迹分析（L0-L6 范式分级）→ 四问定位 → 落盘。
+**单人八步**（`references/workflow-single-scholar.md`）：锚定身份（**含音译禁令**）→ 多源爬取 → 假阳性过滤 → 轨迹分析（L0-L6 范式分级）→ **引文链回溯（学术根定位）** → **合作者深挖（时代结构判读）** → 四问定位 → 落盘。
 
 **课题组七步**（`references/workflow-group.md`）：名单结构化 → 批量爬取（`scripts/crawl_group.py` 锚点消歧）→ **0 命中诊断（强制）** → 轨迹分析 → 对照 → 判据式结论 → 落盘。
 
@@ -157,10 +157,10 @@ tags:
 | `references/institute-name-verification.md` | 音译禁令 + 核实来源阶梯 |
 | `references/openalex-pitfalls.md` | OpenAlex 技术坑（NBSP/字段位置/被引下界） |
 | `references/waf-playbook.md` | 瑞数 5 代 WAF 实测 |
-| `references/workflow-single-scholar.md` | L2 单人六步 + L0-L6 分级 |
+| `references/workflow-single-scholar.md` | L2 单人八步 + L0-L6 分级 + 引文链回溯 + 时代结构判读 |
 | `references/workflow-group.md` | L2 课题组七步 + 0 命中诊断 |
 | `references/ai-teardown-criteria.md` | L3 四问 + 断供分层 + 话术判读卡 |
-| `references/tool-discipline.md` | 四类坑（静默错配/假阴性/元数据错标/锚点盲区） |
+| `references/tool-discipline.md` | 五类坑（静默错配/假阴性/元数据错标/锚点盲区/DOI 猜错） |
 | `assets/archived-scholars.md` | 已建档索引（CUPB 两组 14 人） |
 | `institutes/` | 院配置 schema（README.md）+ 大庆参考实现（daqing.json / daqing_name_cn.json / domain_rules.json） |
 | `scripts/crawl_group.py` | L2 课题组批量爬取（CrossRef 锚点消歧） |
@@ -180,6 +180,9 @@ tags:
 5. **英文署名禁止音译**——「曾华森」实为曾花森
 6. **同名机构污染三重约束**——不查 rival 机构不许跑（邹才能被并进大庆案例）
 7. **作者碎片化必须消歧**——`Cheng Wang` 13 个分身，不合并就是系统性下界
-8. **能源 AI 四问**——缺一问 = 宣传大于工程
-9. **物理内核难护城，规则库难替代**——断供风险方向相反
-10. **判断 AI 化深度看学生代一作**——本人守物理侧是行业常态
+8. **待补 DOI 禁止凭记忆猜**——解析成功也要核对作者列表（王尚旭 GJI 2007 DOI 实为 Kugler 论文案例）
+9. **能源 AI 四问**——缺一问 = 宣传大于工程
+10. **物理内核难护城，规则库难替代**——断供风险方向相反
+11. **判断 AI 化深度看学生代一作**——本人守物理侧是行业常态
+12. **引文链回溯可把断供判断从推断升级为硬证据**——学术根全是公开经典 = 理论层断供为零
+13. **合作网络看时代结构**——执行核心每 5-6 年换一代，PI 是常数；退出者同样有信息量
