@@ -1,0 +1,63 @@
+{
+  "_note": "四川盆地/西南油气田口径的子领域规则。**不复用 domain_rules.json**——那份是大庆校准的，关键词含『古龙/扶余/松辽/青山口/嫩江/姚家』等松辽盆地专属词，对四川盆地零命中只会稀释判据。本文件按西南院实际产出重标。",
+  "_calibration": "2026-09-29 用西南院 Top25 作者的 sample_titles + top_venues 标定。核心差异：西南院 Top 期刊是 Natural Gas Industry B（英文版《天然气工业》）、Petroleum Exploration and Development（《石油勘探与开发》英文版）、Journal of Natural Gas Geoscience —— 全部是天然气/深层-超深层方向，与大庆的陆相砂岩路线不同。",
+  "01 沉积学与层序地层学": [
+    "sediment", "deposition", "sequence stratigraph", "sandstone", "conglomerate",
+    "facies", "fan-delta", "shoreface", "lacustrine", "fluvial", "delta", "carbonate platform",
+    "台地", "滩", "礁", "白云岩", "蒸发岩", "沉积相", "层序",
+    "Wufeng", "Longwangmiao", "Maotan", "Xiaojiang", "Longmenshan", "Maqiao", "Shujiawan",
+    "涪陵", "焦石坝", "龙马溪", "洗井", "宝箴关", "茅口", "龙潭", "灯影", "震旦"
+  ],
+  "02 石油地球化学与烃源岩": [
+    "source rock", "kerogen", "biomarker", "organic geochem", "pyrolys", "Rock-Eval",
+    "oil shale", "hydrocarbon generation", "maturity", "oil-source correlat",
+    "solid bitumen", "organo-clay", "vitrinite", "isotopic",
+    "生烃", "烃源岩", "油页岩", "干酪根", "生物标志", "有机质", "成熟度", "同位素",
+    "Longtan", "Longwangmiao", "Qingxi", "Lower Cambrian"
+  ],
+  "03 含油气系统与油气成藏": [
+    "petroleum system", "accumulation", "migration", "trap", "seal", "reservoir forming",
+    "play fairway", "preservation", "filling history", "charging", "hydrocarbon trap",
+    "成藏", "运移", "保存条件", "盖层", "储集", "充注", "圈闭", "构造演化",
+    "Sichuan Basin", "Longmenshan", "Weiyuan", "Xingwen", "Gas field", "deep gas", "ultra-deep",
+    "四川盆地", "龙马溪", "涪陵", "威远", "兴文", "深井", "超深"
+  ],
+  "04 地球物理 / 测井 / 钻井": [
+    "seismic", "well log", "logging", "acoustic", "impedance", "inversion", "attribute",
+    "reservoir geophysic", "AVO", "prestack", "denois", "resolution", "3-D", "4-D",
+    "wide azimuth", "shallow seismic", "tomograph", "gravity", "magnetic", "MT",
+    "地震", "测井", "反演", "属性", "岩心", "成像测井", "物探", "重磁", "电磁",
+    "FWI", "RTM", "seismic inversion", "carbonate", "dolomite"
+  ],
+  "05 油藏工程与开发地质（含 EOR）": [
+    "enhanced oil recovery", "EOR", "polymer flood", "alkali-surfactant", "ASP",
+    "surfactant", "water flood", "reservoir engineer", "production", "injectivity",
+    "relative permeab", "remaining oil", "residual oil", "sweep efficiency", "profile control",
+    "microbial", "MEOR", "foam", "emulsion", "rheolog", "displacement", "well stimulation",
+    "hydraulic fracturing", "fracture", "refracking", "well test", "history matching",
+    "采收率", "聚合物驱", "剩余油", "调剖", "驱油", "压裂", "返排", "试井", "历史拟合",
+    "gas production", "well deliverability", "产能"
+  ],
+  "06 非常规 / 深层深水 / 资源评价": [
+    "shale oil", "shale gas", "tight", "unconventional", "deep", "ultra-deep", "deepwater",
+    "nano pore", "pore fracture", "resource assessment", "reserve", "basin analy", "geomechan",
+    "stress field", "overpressure", "页岩", "致密", "深层", "超深层", "深水", "资源评价",
+    "Longtan shale", "Fuling", "Weiyuan", "marine shale", "Fangshenggou"
+  ],
+  "07 AI + 地球物理交叉": [
+    "neural network", "deep learning", "machine learning", "CNN", "transformer",
+    "weakly supervised", "intelligen", "data-driven", "artificial intelligence",
+    "inversion", "autoencoder", "generative", "foundation model", "LLM",
+    "人工智能", "深度学习", "神经网络", "智能", "机器学习", "大模型"
+  ],
+  "08 微生物提高采收率 / 生物技术": [
+    "microbial", "methanogen", "genomic", "transcriptom", "meta-omics", "biodegrad",
+    "bacterial", "microbiolog", "microbiome", "biogas", "bio-methane",
+    "微生物", "基因组", "生物气", "甲烷", "微生物降解"
+  ],
+  "09 天然气工程与储气 / 地面": [
+    "natural gas processing", "gas storage", "LNG", "pipeline", "compressor", "purification",
+    "sulfur removal", "high sulfur", "gas recovery", "dehydration", "计量",
+    "天然气处理", "储气", "净化", "脱硫", "高含硫", "集输", "管道", "压缩", "计量"
+  ]
+}

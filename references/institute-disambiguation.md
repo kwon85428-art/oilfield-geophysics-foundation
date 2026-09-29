@@ -111,3 +111,87 @@
 1. 本名单做过 X 组分身合并（列证据表）
 2. 未并入的门槛外分身有 Y 个，故 Z 某的数字仍为下界
 3. 有 W 个同名分身判为同名不同人（列反证）
+
+---
+
+## 键口径必须全局统一（2026-09-29 中石化物探院实战，血泪）
+
+这是本链路最容易造成**静默全盘失效**的坑，且不报错、不崩、退出码 0。
+
+### 事故复现
+
+`merges.json` 的组键被写成 `group_key`（**字符多重集**，字序无关）：
+
+```
+yangwang  → aaggnnwy
+Dingjin Liu → dgiiijlnnu
+```
+
+而消费脚本 `apply_merges.py` 用自己的 `norm()`（**有序**小写）去查：
+
+```
+yangwang  → yangwang      # 与 aaggnnwy 不匹配
+```
+
+结果：**15 组合并决策全部 MISS**。脚本正常退出、日志只写
+「跳过 xxx：待并分身均不在核心名单」、校验全绿、退出码 0——
+但核心名单里刘定进因此占了两行，没人发现。
+
+### 三条硬纪律
+
+1. **唯一实现处**：键口径只能用 `author_identity.group_key`，
+   任何脚本不许在本地重写一份 `norm()`。字序无关 vs 有序，两份实现必然漂移。
+2. **零命中即硬失败**：决策表非空而可执行计划为 0 → `sys.exit` 报错。
+   「全部跳过」和「本来就没东西可并」必须区分开。
+3. **校验器读键要和被校验数据同一把尺子**：
+   校验器用有序 `norm()` 比对 `group_key` 键，会得到「0 组未混入核心名单：OK」——
+   这是**假通过**，0 组本来就没查成。
+
+### 配套：三种语义不许混在一个字段里
+
+| 字段 | 语义 | 本人是否在核心 |
+| --- | --- | --- |
+| `merge` | 已判定同一人并合并 | 在（keep） |
+| `no_merge` | **只是不合并碎片**，证据不足以并 | **仍在**（keep 凭自己那几篇已达标） |
+| `reject_whole_group` | 整组判同名不同人 | **不在** |
+
+2026-09-29 把后两者混在一个 `no_merge` 里，校验器一律按
+「判不并 = 不进核心」去查，误报 3 人污染——**是校验器的语义假设错了，不是名单错了**。
+
+> 判据：**问「本人是否被剔除」，不要问「碎片是否被合并」。**
+
+### 配套：校验脚本自身崩了 ≠ 通过
+
+`python make_report.py ... | tail` 取的是 `tail` 的退出码，不是 python 的。
+脚本中途 `AttributeError` 崩溃，屏幕上仍显示「全部通过」、`exit=0`。
+
+```python
+if __name__ == "__main__":
+    try:
+        rc = main()
+    except Exception:
+        traceback.print_exc(); sys.exit(2)   # 崩了就非零，不许走到「全部通过」
+    sys.exit(rc or 0)
+```
+
+再加一条：**「全部通过」只能在所有校验跑完之后打印**，不能提前。
+
+---
+
+## 坑：`name:` 合成键的丢弃会在全链路每个消费点复发（2026-09-29）
+
+OpenAlex 未分配 author.id 的作者行走 `name:<归一化名>` 合成键。**任何**下游
+脚本用 `is_real_openalex_id()` 过滤 `merged_from`，都会把这些人的真实论文
+静默丢掉——同一个 bug 在一条链上踩了两次：
+
+1. `apply_merges.py`：旧代码 `frags = [f for f in frags if not f.startswith("name:")]`，
+   理由是「论文已挂主片名下」——经原始缓存证伪（Guanghui Hu 的 W4299444035
+   18 引独立院署名论文不在主片里）。丢 1 篇/18 引，产物仍是"合理 JSON"。
+2. `l2_extract.py`：修完 #1 后重跑逐篇证据，刘卫华 26 篇 vs roster_merged 27 篇——
+   差的正是 `name:liuweihua` 的 W4405468983。过滤发生在
+   `ids = [i for i in ... if is_real_openalex_id(i)]` 这一行，与 #1 同构。
+
+**判据**：修一处不够。凡消费 `merged_from` / entity 引用列表的脚本，
+全链路 grep `is_real_openalex_id|startswith("name:")`，逐个确认合成键有
+独立抓取通道（by_name + author.id 为空 + work 集合去重）。回归测试见
+`scripts/test_name_fragment_recompute.py`。

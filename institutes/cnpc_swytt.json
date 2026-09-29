@@ -1,0 +1,64 @@
+{
+  "institution": {
+    "name": "中国石油西南油气田分公司勘探开发研究院",
+    "short": "cnpc_swytt",
+    "openalex_parent_id": "I4387156274",
+    "parent_name": "PetroChina Southwest Oil and Gas Field Company (China)",
+    "parent_note": "本院在 OpenAlex 有独立实体 I4387154057（891 works, ROR 019yvd402, h=56），但**该实体是脏的，不可直接用**：逐篇核署名发现 871 篇里混入 480 条北京勘探院 RIPED 署名 + 大量西南石油大学/中国石油大学(北京)合作方署名——OpenAlex 把「本院作者与 RIPED 合作的论文」整篇归到院实体下。故改走大庆口径：用上级公司实体 4870 篇做全量，再逐篇筛院署名。",
+    "location": "四川省成都市青羊区顺城大街上段 610041 / 610051"
+  },
+  "identify": {
+    "city_tokens": ["Chengdu", "成都", "Sichuan", "四川", "610041", "610051", "610213", "610095"],
+    "institute_patterns_en": [
+      "(?:exploration\\s*(?:and|&)\\s*development\\s+research\\s+institute|research\\s+institute\\s+of\\s+(?:petroleum\\s+)?exploration(?:\\s*(?:and|&)\\s*development)?|institute\\s+of\\s+exploration(?:\\s*(?:and|&)\\s*development)?|research\\s+institute\\s+of\\s+exploration(?:\\s*(?:and|&)\\s*development)?).{0,60}?(?:south\\s?west|sw)",
+      "(?:south\\s?west|sw).{0,60}?(?:exploration\\s*(?:and|&)\\s*development\\s+research\\s+institute|research\\s+institute\\s+of\\s+(?:petroleum\\s+)?exploration(?:\\s*(?:and|&)\\s*development)?|institute\\s+of\\s+exploration(?:\\s*(?:and|&)\\s*development)?|research\\s+institute\\s+of\\s+exploration(?:\\s*(?:and|&)\\s*development)?)"
+    ],
+    "sub_institute_tokens_en": [
+      "shale\\s+gas\\s+(?:research\\s+)?institute",
+      "research\\s+institute\\s+of\\s+natural\\s+gas\\s+technology",
+      "research\\s+institute\\s+of\\s+gas\\s+recovery\\s+engineering",
+      "engineering\\s+(?:technology|research)\\s+institute",
+      "safety,?\\s*(?:environment)?[ ,]*(?:and|&)?\\s*(?:technical|technology)\\s+supervision\\s+research\\s+institute"
+    ],
+    "_sub_note": "⚠️ 2026-09-29 修正：初版把 shale gas institute 的两条正则放进 institute_patterns_en，等于把二级院所（页岩气研究院）与院本部混为一个口径。实测代价：院署名 works 1139 → 去掉后 724（**415 篇、3093 条署名中 1157 条是页岩气院**），占署名量 37%。二级院所是平级机构不是下属，混算会让院本部名单被页岩气院的人灌水（如 Jianfa Wu / A5000607137 全部 57 篇都署 Shale Gas Research Institute，修正后不在院本部名单）。二级院所名单走 sub_institutes_tokens_en 单独出附表。",
+    "institute_patterns_cn": [
+      "西南油气田.{0,12}勘探开发研究院",
+      "勘探开发研究院.{0,12}西南油气田",
+      "西南油气田分公司勘探开发研究院"
+    ],
+    "rival_exclude_tokens": [
+      "Beijing 100083", "Beijing, 100083", "100083", "Beijing 100089",
+      "Langfang", "065007", "Lanzhou", "Gansu", "Northwest", "NWGI", "西北",
+      "Research Center of Sichuan Basin", "Sichuan Basin Research Center",
+      "Sichuan Basin Research Centre", "Research Institute of Sichuan Basin",
+      "四川盆地研究中心", "四川盆地",
+      "Jidong Oilfield", "Tangshan", "冀东",
+      "Daqing", "大庆", "Tarim", "塔里木", "Changqing", "长庆", "Yumen", "玉门",
+      "Xinjiang Oilfield", "新疆油田",
+      "Southwest Petroleum University", "Chengdu University of Technology",
+      "China University of Petroleum", "Sichuan University",
+      "中国石油集团石油管工程技术研究院", "石油管工程技术研究院",
+      "Sinopec Southwest", "西南油气分公司", "中石化"
+    ],
+    "cross_group_tokens": ["CNOOC", "中国海油", "Sinopec", "中国石化", "中石化", "Yanchang", "延长石油", "Shell", "Total", "Equinor", "BP"],
+    "_rival_note": "2026-09-29 实测标定。① 北京勘探院 RIPED 是最大污染源：上级公司 4870 篇里 1741 条署名含院名英文但不含 Southwest，Top 变体全是 'PetroChina Research Institute of Petroleum Exploration & Development, Beijing 100083'（218 条）。② **最阴险的陷阱是 Sichuan Basin Research Center / Research Institute of Sichuan Basin（12 变体 44 条）**——它是 RIPED 下属四川研究中心，**城市写 Chengdu 610041**，光靠 city_tokens 完全挡不住，会把北京院的人算进西南院名单。故必须把 Sichuan Basin 四变体 + 中文「四川盆地」硬写进 rival。③ 冀东院（Tangshan）、西北院（Lanzhou/NWGI）、大庆、塔里木为同类中石油兄弟院污染。④ 西南石油大学 / 成都理工大学 / 中国石油大学(北京) 为同城合作方高校，署名里可能与院名共现，需排除。⑤ 上级公司串里也有中石化西南油气分公司（2 条）—— 由 cross 与 rival 双挡。",
+    "_cross_group_note": "同大庆口径：OpenAlex 会把两个单位署名拼进同一条 raw_affiliation_strings。本院署名含 PetroChina，故 cross 用其他集团（中海油/中石化/延长/外资油公司）做反查。",
+    "_pattern_note": "院名正则在 522 种实测变体上标定：'Exploration and Development Research Institute' / 'Research Institute of Exploration and Development' / 'Institute of Exploration and Development' 三种词序都要，'&' 与 'and' 都要，'Southwest' 有连写与 'South West' 分写两种，'Oil & Gasfield' / 'Oil & Gas Field' / 'Oil and Gas' 三种拼法。院名正则本身内嵌 southwest 约束（前后 60 字符内），比 city 共现更严——这样 'Research Institute of Petroleum Exploration and Development, Beijing' 这类不含 Southwest 的污染在正则层就被挡，不必依赖 rival 词表兜底。",
+    "_city_note": "city_tokens 刻意**不含** Southwest/SW（那是上级公司名不是地名），而含 Sichuan/四川（西南油气田业务范围为全川）。**刻意不含 610500**——那是西南石油大学邮编，纳入会放进大量高校署名。",
+    "_json_note": "本文件 note 类字段必须写成单行字符串——JSON 不允许字符串值里出现裸换行，跨行写会直接解析失败（2026-09-27 踩过）。"
+  },
+  "threshold": { "yjy_min": 2, "cited_min": 30, "cited_basis": "yjy" },
+  "name_cn_file": "cnpc_swytt_name_cn.json",
+  "domain_rules_file": "domain_rules_swyt.json",
+  "_domain_note": "用西南专用规则而非 domain_rules.json：后者关键词是松辽/大庆口径（古龙/扶余/青山口/嫩江/姚家），对四川盆地零命中，只会稀释判据并把所有人的标题打成『未归类』。新增 09 天然气工程（西南院高含硫气净化/集输是特色方向，大庆口径里没有）。",
+  "_threshold_note": "沿用大庆校准值 yjy>=2 且 cited>=30，未重校。本院上级公司 works 4870（大庆 2109），体量更大，同门槛可能偏松。交付件给三档数字。",
+  "_cited_basis_note": "2026-09-29 显式写入 cited_basis=yjy。938 条目里 266 条 total_cited != yjy_cited——total_cited 是该 OpenAlex author 全部论文被引（含挂靠外单位的论文），yjy_cited 只算院署名命中论文的被引。用 total_cited 筛核心会把外单位业绩算进院本部：最典型 Jianfa Wu（A5000607137）total=1908 但院署名仅 1 篇 / 被引 6，修正后已不在院本部名单。**门槛、排序、报告输出必须同一口径**，否则会出现「按院口径筛、按全作者口径排」的自相矛盾。此处不写会静默依赖 distill_core.py 的默认值——配置里显式声明，避免脚本改默认时静默漂移。",
+  "_dup_note": "2026-09-29 分身判据两处修正，均为「验证尺子刻错」类：① merge_dups.py 门槛判 co_cnt[b][y]（b 侧）却记录 co_cnt[a][y]（a 侧），展示数字与检验数字不是同一个量，导致 Qian Li/Shaomin ZHANG/Yunlong Wang 显示 [1] 却仍判合并，Hua Wang/Wei Yan 被假否决。② 记录级重复（预印本+正式版被 OpenAlex 拆成两条 work）才是碎片化的机械证据，比合著网络硬——Yuexiang Wang A5101676315/A5101676316 即属此例。合并改为分级：ORCID 相同 / 记录级重复 = 自动合并；其余需 min(ca,cb) 对称合著>=3 且 机构 token Jaccard>=0.5 且 年份区间重叠 三项同时成立。",
+  "_website": {
+    "homepage": "https://www.swyt.cnpc.com.cn",
+    "waf_status": "全域不通（2026-09-29 实测）：swyt.cnpc.com.cn / www.xnswyt.cnpc.com.cn / yjj.swyt.cnpc.com.cn 全部 HTTP 502，www.cnpc.com.cn 返回 412（瑞数 WAF）。",
+    "has_public_roster": "未验证（官网不可达，无法确认）",
+    "roster_note": "⚠️ 与大庆院/中石化物探院不同，此处**不能**写「已确认无专家名录」——官网 502，无法验证。按 skill 纪律「0 命中≠没有」的反面探针，此项标未验证，走文献反推是被迫而非确证。",
+    "openalex_homepage_stale": "院实体 I4387154057 的 homepage_url 指向 www.gaskk.com，实测该域名 200 但已是《天然气工业》期刊投审 SaaS（founderss.cn 平台，Vue SPA，title 为默认占位），OpenAlex 的 homepage_url 已过时失效。"
+  }
+}

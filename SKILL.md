@@ -163,11 +163,24 @@ tags:
 | `references/tool-discipline.md` | 五类坑（静默错配/假阴性/元数据错标/锚点盲区/DOI 猜错） |
 | `assets/archived-scholars.md` | 已建档索引（CUPB 两组 14 人） |
 | `institutes/` | 院配置 schema（README.md）+ 大庆参考实现（daqing.json / daqing_name_cn.json / domain_rules.json） |
+| `institutes/sinopec_swty.json` | 中石化石油物探技术研究院配置（机构 `I4405277349`，含江苏油田/胜利油田 rival 排除词） |
+| `institutes/sinopec_swty_name_cn.json` | 该院已核实中文姓名（6 人，均带公开来源，禁止音译填充） |
+| `institutes/cnpc_swytt.json` | 中石油西南油气田分公司配置 |
+| `institutes/cnpc_swytt_name_cn.json` | 该院已核实中文姓名 |
+| `institutes/tarim.json` | 塔里木油田公司勘探开发研究院配置。**反例档：OpenAlex 无 Tarim 独立 institution entity**（最近似的 PetroChina Xinjiang 是克拉玛依的新疆油田，隶属无关），故 `openalex_parent_id` 置空、改走 CrossRef；且 `query.affiliation` 匹的是全文本非 author 字段，虚高 83 倍（17198→206），必须按 `author.affiliation` 硬过滤。另含四层分离（L1 院本级/L2 超深挂靠平台/L3 兄弟院/X 污染）与 `-tlm@petrochina.com.cn` 邮箱锚 |
+| `institutes/domain_rules_swyt.json` | 物探子领域归类规则（跨院共用） |
 | `scripts/crawl_group.py` | L2 课题组批量爬取（CrossRef 锚点消歧） |
 | `scripts/fetch_institute.py` | L1 上级公司全量 works + 院署名识别 + 聚合 |
-| `scripts/distill_core.py` | L1 门槛筛选 + 子领域归类 |
+| `scripts/distill_core.py` | L1 门槛筛选 + 子领域归类（`--roster` 可吃合并后名单） |
 | `scripts/disambiguate.py` | L1 分身反查（合作者共现+机构+主题） |
+| `scripts/apply_merges.py` | **人工合并决策应用器**：读 merges.json → 按 work id 去重重算被引 → 产出 roster_merged + 审计表 |
+| `scripts/author_identity.py` | 作者身份口径唯一实现处（`norm_name` / `group_key` / `entity_key` / `is_real_openalex_id`） |
+| `scripts/cited_basis.py` | 被引口径唯一裁决点（`all`=total_cited / `yjy`=yjy_cited，非法值直接报错不 fallback） |
+| `scripts/merge_evidence.py` | 合并证据链生成（共同枢纽 / 机构一致性 / 主题一致性） |
+| `scripts/make_report.py` | Markdown 报告渲染 + md↔json 集合级交叉校验（21 项） |
+| `scripts/name_probe.py` | 中文姓名核实探针（多源交叉 + 反面探针） |
 | `scripts/validate_skill.py` | 融合自检（长期资产，改后复跑） |
+| `scripts/test_name_fragment_recompute.py` | 回归测试：`name:` 合成键必须参与 recompute() 并集去重（防 2026-09-29 剔除 name: 键丢真数的 bug 复发） |
 
 ---
 

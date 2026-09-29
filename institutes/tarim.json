@@ -1,0 +1,93 @@
+{
+  "institution": {
+    "name": "塔里木油田公司勘探开发研究院",
+    "short": "tarim_yjy",
+    "openalex_parent_id": null,
+    "parent_name": "Tarim Oilfield Company, PetroChina",
+    "_no_openalex_note": "2026-09-29 实测：OpenAlex 无 Tarim Oilfield 独立 institution entity（'Tarim Oilfield' / 'Tarim Oilfield of CNPC' 均 0 命中）。唯一近似的 'PetroChina Xinjiang Oilfield Company (China)' 是克拉玛依的新疆油田，与塔里木无隶属关系，用它当锚点会整体错配。故 openalex_parent_id 置空，改走 crossref 路径（见 datasource 段）。"
+  },
+  "datasource": {
+    "primary": "crossref",
+    "crossref_query": { "query.affiliation": "Tarim Oilfield" },
+    "_hard_filter_note": "2026-09-29 实测：CrossRef query.affiliation 匹配的是完整元数据文本（含摘要与参考文献里 publisher 抽取的串），不是 author.affiliation 字段。实证：2,185 篇候选含 'Tarim University' 署名，但其中作者 affiliation 真含 'Tarim Oilfield' 的 = 0 篇，期刊集中在 Agriculture/Plants/Horticulturae。必须按 author.affiliation 硬过滤，虚高 83 倍（17,198 -> 206）。",
+    "openalex_fallback": {
+      "filter": "raw_affiliation_strings.search:Tarim Oilfield",
+      "note": "OpenAlex 日配额恢复后可用作交叉验证，确认 L1=206 是下界还是接近真值。"
+    }
+  },
+  "identify": {
+    "city_tokens": ["Korla", "Kuerle", "库尔勒", "Xinjiang", "841000", "841001"],
+    "host_tokens": ["Tarim Oilfield", "PetroChina Tarim", "Tarim Oilfield Branch", "Korla", "库尔勒"],
+    "institute_patterns_en": [
+      "research\\s*institutes?\\s*of\\s*(?:petroleum\\s*)?exploration\\s*(?:and|&)\\s*development",
+      "(?:tarim\\s+)?(?:oilfield\\s+)?(?:company\\s+)?exploration\\s*(?:and|&)\\s*development\\s*research\\s*institute",
+      "tarim\\s+research\\s*institute\\s+of\\s+petroleum\\s+exploration",
+      "institute\\s+of\\s+petroleum\\s+exploration\\s*(?:and|&)\\s*development"
+    ],
+    "institute_patterns_cn": [
+      "塔里木油田(?:公司)?(?:勘探开发研究院|勘探开发研究所)",
+      "塔里木油田公司勘探开发研究院"
+    ],
+    "rival_exclude_tokens": [
+      "Tarim University", "Alar", "Aral", "843300", "阿拉尔",
+      "Production and Construction", "Production & Construction", "Xinjiang Production",
+      "Xinjiang Oilfield", "Karamay", "Urumqi", "834000", "830001",
+      "BGP", "Oriental Geo",
+      "Changqing", "Daqing", "Shengli", "Zhongyuan", "Bohai", "Yumen",
+      "Sinopec",
+      "Beijing 100083", "Langfang", "RIPED",
+      "Research Institute of Petroleum Exploration and Development, Beijing"
+    ],
+    "cross_group_tokens": ["CNOOC", "Sinopec", "Petrochemical", "Yanchang", "Shell", "BP", "Equinor"],
+    "l2_platform_tokens": [
+      "R&D Center for Ultra-Deep Complex Reservoir Exploration and Development",
+      "Engineering Research Center for Ultra-Deep Complex Reservoir Exploration",
+      "Xinjiang Key Laboratory of Ultra-Deep Oil and Gas",
+      "CNPC Ultra-Deep Complex Oil and Gas Reservoir Exploration and Development",
+      "超深"
+    ],
+    "l2_note": "2026-09-29 实测新发现：L2 挂靠平台（超深复杂油气藏研发中心、新疆超深重点实验室）论文数是 L1 院本级的 1.8 倍（376 vs 206），且人员高度重叠。按「塔里木+研究所」宽口径抓会把平台人员误算成院本级编制。必须四层分开：L1 院本级 / L2 挂靠平台 / L3 兄弟院 / X 污染。",
+    "l3_sibling_tokens": [
+      "Oil and Gas Technology Research Institute",
+      "Engineering Technology Research Institute",
+      "Geophysical Exploration", "Geophysical Research Institute"
+    ],
+    "_cross_group_note": "2026-09-29 实测：OpenAlex/CrossRef 会把两个单位的署名拼进同一条 raw_affiliation_strings，例 'China Petroleum Corporation Tarim Oilfield Branch Oil and Gas Engineering Research Institute R&D Center for Ultra Deep Complex Reservior Exploration and Development, CNPC Engineering Research Center...'。此时 rival_exclude_tokens 不命中、city 共现成立，双署名被计入本院产出。cross_group_tokens 是第四道防线。PetroChina 不算竞争对手——它是塔里木的母体公司，本身就是院署名的一部分。",
+    "_four_layer_note": "本次新发现 skill 原版未区分的层级：塔里木油田公司系统内至少 4 个实体混用相似院名——L1 勘探开发研究院 / L2 超深研发中心（挂靠平台）/ L3 油气技术研究院+工程技术研究院+物探研究院（兄弟院）/ X 塔里木大学阿拉尔校区 + 新疆油田克拉玛依 + BGP 东方物探。",
+    "_json_note": "本文件 note 类字段必须写成单行字符串——JSON 不允许字符串值里出现裸换行，跨行写会直接解析失败（2026-09-27 踩过）。"
+  },
+  "evidence": {
+    "mail_anchor": {
+      "pattern": "^([a-z0-9._%+-]+)-tlm@petrochina\\.com\\.cn$",
+      "note": "2026-09-29 实测：-tlm@petrochina.com.cn 是塔里木油田内部账号（tlm=塔里木）。这是独立于 affiliation 字符串的第二条归属证据链，能救回 affiliation 缺失的中文刊论文（20 篇，如 Geophysics/Interpretation/AAPG Bulletin）。⚠️ 但必须只绑给「该 affiliation 串所属作者」，不能绑给论文全体作者——否则 Boston College 的 Alexei V. Milkov 等国际合作者会被误判为院人。",
+      "multi_mail_guard": "一条 affiliation 串内含多个邮箱（'E-mail: a@...; b@...'）时不可唯一绑定，标歧义不绑（实测 11 次）。"
+    },
+    "pinyin_guard": {
+      "note": "2026-09-29 实测：中国作者 given/family 常被填反——'Haijun Yang' 的邮箱是 yanghaij（真实姓杨）。邮箱-姓名自洽检查必须双向（假设任一 token 是姓），不能只假设第 0 段是姓。也不能用懒惰正则 ([a-z]+?)([a-z]{1,4}) 拆姓/名，会把 zhanghz 拆成 zh+anghz 导致全部误判，必须姓氏表前缀匹配。"
+    }
+  },
+  "threshold": { "yjy_min": 2, "cited_min": 30 },
+  "name_cn_file": "tarim_name_cn.json",
+  "domain_rules_file": "domain_rules.json",
+  "_baseline": {
+    "note": "2026-09-29 实测基线（CrossRef 口径，非 OpenAlex 口径，勿与大庆横向比较）",
+    "cr_fuzzy_works": 17198,
+    "cr_fuzzy_inflation_x": 83,
+    "l1_works": 206,
+    "l1_occurrences": 466,
+    "l1_authors_with_evidence": 282,
+    "l1_authors_profiled": 1300,
+    "l2_works": 376,
+    "l3_works": 171,
+    "n_strings_total": 37956,
+    "n_author_aff_records": 106042,
+    "t0_only_l2l3": 1018,
+    "core_pool_after_merge": 120,
+    "both_evidence": 18,
+    "mail_anchor_works": 32,
+    "mail_only_works": 20,
+    "verified_cn": 0,
+    "unverified_cn": 120,
+    "n_strings_l1": 156
+  }
+}

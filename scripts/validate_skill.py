@@ -14,7 +14,20 @@ ROOT = Path(__file__).resolve().parent.parent
 SELF = "scripts/validate_skill.py"
 
 SKIP_DIRS = {".git", ".github", "__pycache__", ".venv", "venv", "node_modules", ".idea", ".vscode"}
+# 运行产物目录：不参与「SKILL.md 是否列全」的资产清点。
+#
+# 为什么要按**前缀**跳而不是整个 institutes/ 跳掉：
+# institutes/ 里既有长期资产（*.json 配置），也有 out_<short>/ 这类
+# 一次性运行输出（含 works_raw.json 好几个 MB、临时探针脚本）。
+# 混在一起会导致 30+ 条「SKILL.md 未列出的文件」警告，
+# 而警告一多就没人看了——**清单失去信号价值**。
+# 判据：能重跑生成的（out_* 下的东西）不是资产，不该进清单。
+OUTPUT_DIR_PREFIXES = ("out_",)
 BIN_EXT = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".pdf", ".zip", ".csv", ".tsv"}
+
+
+def _is_output_dir(rel_parts):
+    return any(p.startswith(OUTPUT_DIR_PREFIXES) for p in rel_parts)
 
 # 本机确认存在的兄弟 skill（转交话术合法目标，2026-09-27 核验）
 VALID_SIBLINGS = {
@@ -45,7 +58,10 @@ def walk_files():
     for p in sorted(ROOT.rglob("*")):
         if not p.is_file():
             continue
-        if SKIP_DIRS & set(p.relative_to(ROOT).parts[:-1]):
+        rel = p.relative_to(ROOT)
+        if SKIP_DIRS & set(rel.parts[:-1]):
+            continue
+        if _is_output_dir(rel.parts[:-1]):
             continue
         yield p
 

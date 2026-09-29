@@ -1,0 +1,173 @@
+{
+ "institution": {
+  "name": "中石化石油物探技术研究院有限公司",
+  "short": "sinopec_swty",
+  "openalex_parent_id": "I4405277349",
+  "parent_name": "SINOPEC Geophysical Research Institute (China)",
+  "parent_note": "本院在 OpenAlex 有独立机构实体（601 works，ROR 02chsfe33，homepage=swty.sinopec.com），比大庆院省掉『抓上级公司再筛院署名』一环。588 为本次实测 count。",
+  "location": "南京市江宁区上高路219号 / 卫岗基地"
+ },
+ "identify": {
+  "relax_city_constraint": true,
+  "_relax_city_note": "2026-09-29 实测校准，重要偏离大庆链路。本院 OpenAlex 有独立机构实体（I4405277349）且院名『Sinopec Geophysical Research Institute』全国唯一，不存在大庆院那种『几十家油田都叫勘探开发研究院』的同名问题。因此 city 共现约束对本院是净负担：首跑 588 篇里 553 条署名只写院名不带城市（Nanjing 177 条 / 无任何地名 56 条 / Co., Ltd. 变体数十条），全被 city 约束误杀，院署名 works 从应有的 ~500 掉到 346。relax_city_constraint=true 时跳过 city 共现检查，只保留 rival + cross 两道防线（rival 已覆盖中石化勘探院等 6 个同体系研究所）。若日后发现污染，再关回 false。",
+  "city_tokens": [
+   "Nanjing",
+   "南京",
+   "Jiangsu",
+   "Jiangning",
+   "江宁",
+   "211103",
+   "210014"
+  ],
+  "institute_patterns_en": [
+   "(?:sinopec|sinopec\\s*,\\s*)\\s*geophysical\\s+research\\s+institute",
+   "sinopec\\s+geophysical\\s+research\\s+institute",
+   "geophysical\\s+research\\s+institute.{0,40}sinopec",
+   "sinopec\\s+key\\s+laboratory\\s+of\\s+geophysics"
+  ],
+  "institute_patterns_cn": [
+   "中石化(?:石油)?物探(?:技术)?(?:研究)?院",
+   "石油物探技术研究院",
+   "物探技术研究院"
+  ],
+  "rival_exclude_tokens": [
+   "Exploration & Production Research Institute",
+   "Exploration and Production Research Institute",
+   "SINOPEC Exploration and Development",
+   "Petroleum Exploration and Production Research Institute",
+   "Petroleum Processing",
+   "Safety Engineering",
+   "Shanghai Research Institute of Petrochemical",
+   "Beijing Research Institute of Chemical",
+   "Petroleum Engineering Technology Research Institute",
+   "Nanjing Geophysical Research Institute of SINOPEC",
+   "Nanjing Geophysical Research Institute",
+   "Geophysical Research Institute, Jiangsu Oilfield",
+   "Jiangsu Oilfield Company",
+   "Shengli Geophysical Research Institute",
+   "Shengli Oilfield",
+   "中石化勘探开发研究院",
+   "中石化石油勘探开发研究院",
+   "江苏油田物探",
+   "胜利物探"
+  ],
+  "cross_group_tokens": [
+   "CNOOC",
+   "CNPC",
+   "PetroChina",
+   "Yanchang Petroleum",
+   "China National Offshore",
+   "中国海油",
+   "中国石油",
+   "延长石油"
+  ],
+  "_cross_group_note": "2026-09-29 配置：cross_group_tokens 用**其他集团**做反查（不是像大庆那样排除 Sinopec）。原因：本院署名本身就含 Sinopec，若把 Sinopec 放进 cross 会把本院全部署名挡掉。正确做法是查同一 authorship 的 raw_affiliation_strings 里是否同时出现中石油/中海油/延长等其他集团名——同串跨集团 = 该署名是双单位合作而非本院独立产出。",
+  "_rival_note": "2026-09-29 实测：中石化体系内 OpenAlex 有 7 个独立 Sinopec 研究所实体，最大污染源是 SINOPEC Exploration & Production Research Institute（I4405280853，3190 works，北京昌平/燕郊）。但由于本院用 institution.id 精确锚定（不像大庆要遍历上级公司 2109 篇），rival 词表作用从『主过滤器』降级为『双署名剔除』，只需覆盖会在同一署名串里出现的近名院。已实测本院 200 篇样本 Top40 署名串无一命中 rival 词表。v1.1.1 补漏：邮箱扫描发现『Geophysical Research Institute, Jiangsu Oilfield Company, SINOPEC, Nanjing 210046』（江苏油田物探院，邮箱 liulm.jsyt@sinopec.com）与『Shengli Geophysical Research Institute of Sinopec, Dongying』（胜利物探院，邮箱 shangwei.slyt@sinopec.com）两条真实污染——两者与本院同在南京/同属中石化，rival 词表原先只写了『Nanjing Geophysical Research Institute』这种带地名首头的写法，漏掉了这两种以油田公司名开头的写法。判据：**同体系兄弟院优先按油田公司名（江苏油田/胜利油田）排除，不要只按『地球物理研究院』这类通用名排除**——通用名会把本院自己排除掉。",
+  "_json_note": "本文件 note 类字段必须写成单行字符串——JSON 不允许字符串值里出现裸换行。"
+ },
+ "threshold": {
+  "yjy_min": 2,
+  "cited_min": 30,
+  "cited_basis": "yjy"
+ },
+ "name_cn_file": "sinopec_swty_name_cn.json",
+ "domain_rules_file": "domain_rules.json",
+ "_threshold_note": "沿用大庆校准值 yjy>=2 且 cited>=30，未重校。本院体量（549 院署名 works vs 大庆 2109）远小于大庆，同门槛可能偏松/偏紧——见交付件中三档数字对照。cited_basis=yjy：门槛只用院署名论文的被引，不用『作者全部论文被引』。2026-09-29 实测两者差 3 人——Zhenjia Cai(all 61/yjy 8)、Hui Ping Shen(45/20)、Jianping Liao(35/18) 在 all 口径下达标、在 yjy 口径下被挡。这 3 人都是「院署名 2-4 篇但院外论文被引更高」的形态，用 all 口径会把外单位业绩算进院核心名单。代价是刚进院 1-2 年的人系统性吃亏（院署名论文还没被引够），所以交付件里必须把两口径人数都列出来，不许只报一个数。",
+ "_website": {
+  "homepage": "http://swty.sinopec.com/swty/",
+  "waf_status": "200 可直连，无瑞数 WAF（与大庆院不同）",
+  "has_public_roster": false,
+  "roster_note": "官网有『各单位、部门介绍』（12 个研究所建制 + 7 个职能部门）与『领导班子』（仅 3 人：党委书记/副院长王立歆、党委副书记林彦兵、副院长刘定进），但**无专家/人才名录页**。故仍需文献反推。",
+  "roster_note_2": "2026-09-29 复核：历史『人才风采』栏目（/swty/hr/personage/）已下线，搜索引擎仍留索引但页面 404。确认本院至今无公开专家名录。",
+  "official_stats": {
+   "_note": "官网 2026-09-24 首页『物探院概况』原文数据，抓取日期 2026-09-29。这些数字**不是 OpenAlex 算出来的**，是院方自报，引用时必须标明口径。",
+   "_as_of": "截至 2026 年 3 月",
+   "员工": "574 人（平均年龄 38.6 岁）",
+   "建制": "7 个职能部门 + 10 个二级单位 + 1 家全资子公司",
+   "高层次人才": "海外高层次人才 5 人；中石化「双百计划」人才 7 人",
+   "核心技术": "8 项",
+   "软硬件产品": "5 项（5G 智能节点仪 SmartPoint、πFrame 等）",
+   "省部级以上奖": "87 项，其中国家科学技术进步奖一等奖 1 项、二等奖 1 项",
+   "专利": "申请 3380 项，授权 1047 项",
+   "技术成果": "96 个项目 188 件；软件著作权 435 件；出版专著 11 部",
+   "自办期刊": "《JGE》（SCI 检索）、《石油物探》（中文核心）",
+   "创新平台": "油气地球物理勘探国家技术创新中心南京分中心；中国石化地球物理重点实验室；中国石化超算中心（南京）54.6 PFLOPS；中石化地震数据中心 11.2 PB / 2108 个项目；中国石化深层煤层气勘探开发重点实验室；中国石化勘探开发数智技术重点实验室；深层地热物探技术研发实验基地；SEG 南方分部"
+  }
+ },
+ "official_profile": [
+  "定位：中国石化「一部四中心」——物探技术发展参谋部 / 物探高新技术及关键核心技术研发中心 / 物探专业软件研发及推广中心 / 重大物探工程技术支持中心 + 中国石化超算中心",
+  "主责主业：除野外采集之外的所有物探业务；承担国家及中石化重大项目与自主技术攻关",
+  "沿革：20 世纪 50 年代地质部在华北/华东地区的油气大普查物探队伍 → 1977 年国家地质总局石油物探研究大队 → 1983 年更名地质矿产部石油物探研究所 → 2009 年成立中国石化石油物探技术研究院 → 2021 年管理规格调整为大一型企业 → 2022 年完成「分转子」工商注册",
+  "地址：南京市江宁区上高路 219 号（邮编 211103）/ 卫岗基地",
+  "定位区域：聚焦「三北一川两海」重点区域勘探开发"
+ ],
+ "leaders": [
+  [
+   "王立歆",
+   "院党委书记、副院长；公司董事、副总经理"
+  ],
+  [
+   "林彦兵",
+   "院党委副书记、纪委书记、工会主席"
+  ],
+  [
+   "刘定进",
+   "副院长、党委委员；公司副总经理"
+  ]
+ ],
+ "org_units": [
+  [
+   "地震采集技术研究所",
+   "采集技术与工艺研究、方法试验、自主采集软件研发推广；井中地球物理监测（VSP、常规微地震、分布式光纤）；参与总部采集设计论证、质量监控、数据验收"
+  ],
+  [
+   "地震成像技术研究所",
+   "地震信号处理、建模反演、偏移成像新方法；人工智能数据处理方法研究；面向陆海的地震数据处理软件产品；与南京长城数智公司组成一体化研发中心"
+  ],
+  [
+   "油藏地球物理研究所",
+   "油藏地球物理核心技术、复杂储层预测与描述、油藏描述技术、NEWS 软件开发；前瞻地球物理；地热资源地球物理勘查"
+  ],
+  [
+   "地球物理软件研究所",
+   "物探专业软件发展规划编制；专业软件采购技术论证；上游软件研发成果测评；5G 智能地震节点仪器研发与产业化"
+  ],
+  [
+   "物探战略规划研究所",
+   "战略规划、参谋支撑、风险勘探、标准制定、专利布局、期刊运营 6 大方面；《石油物探》与《JGE》出版发行"
+  ],
+  [
+   "地球物理实验中心",
+   "地球物理基础理论；岩石物理测试分析、地震模拟、地震波传播规律及响应特征；交叉学科前瞻技术"
+  ],
+  [
+   "地震处理解释中心",
+   "中石化地球物理技术应用推广与重大工程项目支撑；自主研发新技术的推广应用；处理解释一体化服务"
+  ],
+  [
+   "地球物理信息中心",
+   "中国石化超算中心（南京）建设运营、地球物理数据灾备中心、高性能计算机运维、信息化与档案管理"
+  ],
+  [
+   "西北物探一体化支撑中心",
+   "西北油田现场技术支撑，处理/解释/井位论证全流程服务，促进院科研成果在西北落地"
+  ],
+  [
+   "基地综合服务中心",
+   "基础设施、离退休管理、后勤保障、江宁与卫岗基地物业、土地房产管理"
+  ],
+  [
+   "南京长城数智科技有限公司",
+   "π 地震资料处理系统产品化产业化；地震资料处理技术服务；专业信息技术集成与软件工程化管理；与地震成像所组成一体化研发中心"
+  ]
+ ],
+ "functional_depts": [
+  "综合管理部（董事会办公室、物资采购部、维稳办）",
+  "党群工作部（党委办公室、党委宣传部、党委统战部、工会、团委）",
+  "党委组织部（人力资源部）",
+  "计划财务部",
+  "科研生产部（国际合作部、知识产权办公室）",
+  "技术推广部（HSE 管理部）",
+  "纪检监督部（法律部、审计部、内控办公室）"
+ ]
+}
